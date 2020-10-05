@@ -36,7 +36,21 @@ let removeClass = (element, className, removableClassName) => {
   element.querySelector(className).classList.remove(removableClassName);
 };
 
-removeClass(document, MAP, MAP_TUMBLER);
+let getAvatar = (num) => {
+  let avatar = ``;
+
+  avatar = `img/avatars/user0` + num + `.png`;
+
+  return avatar;
+};
+
+let getPrice = (num) => {
+  let price;
+
+  price = 1000 * num;
+
+  return price;
+};
 
 let renderOffersList = (num) => {
   let offer = [];
@@ -47,12 +61,12 @@ let renderOffersList = (num) => {
 
     offer[i] = {
       "author": {
-        "avatar": `img/avatars/user0` + (i + 1) + `.png`
+        "avatar": getAvatar(i + 1)
       },
       "offer": {
         "title": `Уютная квартира в центре Кексограда`,
         "address": locationX + `, ` + locationY,
-        "price": 1000 * (getRandomNumber(9) + i),
+        "price": getPrice(getRandomNumber(9) + i),
         "type": getRandomElement(PLACE_TYPE),
         "rooms": getRandomNumber(3) + 1,
         "guests": getRandomNumber(2),
@@ -92,3 +106,5 @@ for (let i = 0; i < offersList.length; i++) {
 }
 
 MAP_PINS.appendChild(FRAGMENT);
+
+removeClass(document, MAP, MAP_TUMBLER);
