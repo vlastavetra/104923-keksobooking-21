@@ -13,6 +13,21 @@
   const FRAGMENT = document.createDocumentFragment();
   const OFFERS_NUMBER = 8;
 
+  let activatePage = (evt) => {
+    if (evt.button === 0 || evt.key === `Enter`) {
+      window.util.showElement(MAP, MAP_TUMBLER);
+      window.util.disableElementsTumbler(MAP_FILTERS_CHILDS, false);
+      window.util.disableElementsTumbler(AD_FORM_FILDSETS, false);
+      window.util.showElement(AD_FORM, AD_FORM_TUMBLER);
+    }
+  };
+
+  window.util.disableElementsTumbler(MAP_FILTERS_CHILDS, true);
+  window.util.disableElementsTumbler(AD_FORM_FILDSETS, true);
+
+  MAP_PIN_MAIN.addEventListener(`mousedown`, activatePage);
+  MAP_PIN_MAIN.addEventListener(`keydown`, activatePage);
+
   const successHandler = (offers) => {
     if (offers.length >= OFFERS_NUMBER) {
       for (let i = 0; i < OFFERS_NUMBER; i++) {
@@ -39,21 +54,6 @@
 
     document.body.insertAdjacentElement(`afterbegin`, node);
   };
-
-  let activatePage = (evt) => {
-    if (evt.button === 0 || evt.key === `Enter`) {
-      window.util.showElement(MAP, MAP_TUMBLER);
-      window.util.disableElementsTumbler(MAP_FILTERS_CHILDS, false);
-      window.util.disableElementsTumbler(AD_FORM_FILDSETS, false);
-      window.util.showElement(AD_FORM, AD_FORM_TUMBLER);
-    }
-  };
-
-  window.util.disableElementsTumbler(MAP_FILTERS_CHILDS, true);
-  window.util.disableElementsTumbler(AD_FORM_FILDSETS, true);
-
-  MAP_PIN_MAIN.addEventListener(`mousedown`, activatePage);
-  MAP_PIN_MAIN.addEventListener(`keydown`, activatePage);
 
   window.backend.load(successHandler, errorHandler);
 })();
