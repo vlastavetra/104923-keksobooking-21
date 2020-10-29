@@ -2,7 +2,7 @@
 
 (() => {
   const PinSize = {
-    width: 64,
+    halfWidth: 32,
     height: 70
   };
   const YLimit = {
@@ -10,7 +10,7 @@
     MAX: 630
   };
   const XLimit = {
-    MIN: 0 - PinSize.width / 2,
+    MIN: 0 - PinSize.halfWidth,
     MAX: window.const.MAP.clientWidth
   };
 
@@ -21,36 +21,39 @@
   window.const.MAP_PIN_MAIN.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
 
-    let startCords = {
+    let startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
 
-    let pinAddressX = parseInt(window.const.MAP_PIN_MAIN.style.left, 10) + (PinSize.width / 2);
+    let pinAddressX = parseInt(window.const.MAP_PIN_MAIN.style.left, 10) + PinSize.halfWidth;
     let pinAddressY = parseInt(window.const.MAP_PIN_MAIN.style.top, 10) + PinSize.height;
 
     setAddress(window.const.ADDRESS, pinAddressX, pinAddressY);
 
     let onMouseMove = (moveEvt) => {
       let shift = {
-        x: startCords.x - moveEvt.clientX,
-        y: startCords.y - moveEvt.clientY
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
       };
 
-      startCords = {
+      let coordX = window.const.MAP_PIN_MAIN.offsetLeft - shift.x;
+      let coordY = window.const.MAP_PIN_MAIN.offsetTop - shift.y;
+
+      startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
 
-      if ((window.const.MAP_PIN_MAIN.offsetLeft - shift.x) >= XLimit.MIN && (window.const.MAP_PIN_MAIN.offsetLeft - shift.x + (PinSize.width / 2)) <= XLimit.MAX) {
-        window.const.MAP_PIN_MAIN.style.left = (window.const.MAP_PIN_MAIN.offsetLeft - shift.x) + `px`;
+      if (coordX >= XLimit.MIN && coordX + PinSize.halfWidth <= XLimit.MAX) {
+        window.const.MAP_PIN_MAIN.style.left = coordX + `px`;
       }
 
-      if ((window.const.MAP_PIN_MAIN.offsetTop - shift.y + PinSize.height) >= YLimit.MIN && (window.const.MAP_PIN_MAIN.offsetTop - shift.y + PinSize.height) <= YLimit.MAX) {
-        window.const.MAP_PIN_MAIN.style.top = (window.const.MAP_PIN_MAIN.offsetTop - shift.y) + `px`;
+      if (coordY + PinSize.height >= YLimit.MIN && coordY + PinSize.height <= YLimit.MAX) {
+        window.const.MAP_PIN_MAIN.style.top = coordY + `px`;
       }
 
-      pinAddressX = parseInt(window.const.MAP_PIN_MAIN.style.left, 10) + (PinSize.width / 2);
+      pinAddressX = parseInt(window.const.MAP_PIN_MAIN.style.left, 10) + PinSize.halfWidth;
       pinAddressY = parseInt(window.const.MAP_PIN_MAIN.style.top, 10) + PinSize.height;
 
       setAddress(window.const.ADDRESS, pinAddressX, pinAddressY);

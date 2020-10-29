@@ -2,30 +2,30 @@
 
 (() => {
   const CARD_POPUP = document.querySelector(`#card`).content.querySelector(`.popup`);
-  const OFFER_ELEMENT = CARD_POPUP.cloneNode(true);
-  const Offer = {
-    TITLE: OFFER_ELEMENT.querySelector(`.popup__title`),
-    ADDRESS: OFFER_ELEMENT.querySelector(`.popup__text--address`),
-    PRICE: OFFER_ELEMENT.querySelector(`.popup__text--price`),
-    TYPE: OFFER_ELEMENT.querySelector(`.popup__type`),
-    CAPACITY: OFFER_ELEMENT.querySelector(`.popup__text--capacity`),
-    TIME: OFFER_ELEMENT.querySelector(`.popup__text--time`),
-    FEATURES: OFFER_ELEMENT.querySelector(`.popup__features`),
-    DESCRIPTION: OFFER_ELEMENT.querySelector(`.popup__description`),
-    AVATAR: OFFER_ELEMENT.querySelector(`.popup__avatar`),
-    PHOTOS: OFFER_ELEMENT.querySelector(`.popup__photos`),
-  };
-  const PHOTO_ITEM = Offer.PHOTOS.querySelector(`.popup__photo`);
-  const OfferTypes = {
-    flat: `Квартира`,
-    bungalow: `Бунгало`,
-    house: `Дом`,
-    palace: `Дворец`,
-  };
-  const OFFER_CLOSE = OFFER_ELEMENT.querySelector(`.popup__close`);
 
   window.offer = {
     renderOffer(offer) {
+      const OFFER_ELEMENT = CARD_POPUP.cloneNode(true);
+      const Offer = {
+        TITLE: OFFER_ELEMENT.querySelector(`.popup__title`),
+        ADDRESS: OFFER_ELEMENT.querySelector(`.popup__text--address`),
+        PRICE: OFFER_ELEMENT.querySelector(`.popup__text--price`),
+        TYPE: OFFER_ELEMENT.querySelector(`.popup__type`),
+        CAPACITY: OFFER_ELEMENT.querySelector(`.popup__text--capacity`),
+        TIME: OFFER_ELEMENT.querySelector(`.popup__text--time`),
+        FEATURES: OFFER_ELEMENT.querySelector(`.popup__features`),
+        DESCRIPTION: OFFER_ELEMENT.querySelector(`.popup__description`),
+        AVATAR: OFFER_ELEMENT.querySelector(`.popup__avatar`),
+        PHOTOS: OFFER_ELEMENT.querySelector(`.popup__photos`),
+      };
+      const PHOTO_ITEM = Offer.PHOTOS.querySelector(`.popup__photo`);
+      const OfferTypes = {
+        flat: `Квартира`,
+        bungalow: `Бунгало`,
+        house: `Дом`,
+        palace: `Дворец`,
+      };
+      const OFFER_CLOSE = OFFER_ELEMENT.querySelector(`.popup__close`);
       Offer.ADDRESS.textContent = offer.offer.address;
       Offer.PRICE.textContent = offer.offer.price.toLocaleString() + ` ₽/ночь`;
       Offer.TITLE.textContent = offer.offer.title;
