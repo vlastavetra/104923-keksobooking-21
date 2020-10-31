@@ -1,18 +1,18 @@
 'use strict';
 
 (() => {
+  const RequestMethod = {
+    GET: `GET`,
+    POST: `POST`
+  };
   const RequestURL = {
-    GET: `https://21.javascript.pages.academy/keksobooking`,
-    POST: `https://21.javascript.pages.academy/keksobooking/data`
+    GET: `https://21.javascript.pages.academy/keksobooking/data`,
+    POST: `https://21.javascript.pages.academy/keksobooking`
   };
   const StatusCode = {
     OK: 200
   };
   const TIMEOUT_IN_MS = 10000;
-  const RequestMethod = {
-    GET: `GET`,
-    POST: `POST`
-  };
 
   const statusHandler = (xhr, onLoad, onError) => {
     xhr.addEventListener(`load`, () => {
