@@ -1,67 +1,51 @@
 'use strict';
 
-(() => {
-  window.util = {
-    getRandomNumber(num) {
-      return (Math.round(Math.random() * num));
-    },
+let disableElements = (arr, mode) => {
+  for (let i = 0; i < arr.length; i++) {
+    arr[i].disabled = mode;
 
-    getRandomElement(arr) {
-      return arr[Math.round(Math.random() * Math.round(arr.length - 1))];
-    },
+    if (mode === true) {
+      arr[i].style.cursor = `default`;
+    }
+  }
+};
 
-    getRandomArray(num, arr) {
-      let randomArr = [];
+let showElement = (element, tumbler) => {
+  element.classList.remove(tumbler);
+};
 
-      for (let i = 0; i < num; i++) {
-        let newIndex = window.util.getRandomNumber(arr.length - 1);
+let hideElement = (element, tumbler) => {
+  element.classList.add(tumbler);
+};
 
-        randomArr.push(arr[newIndex]);
-        arr.splice(newIndex, 1);
-      }
+let createErrorMessage = (errorMessage) => {
+  const node = document.createElement(`div`);
 
-      return randomArr;
-    },
+  node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
+  node.style.position = `absolute`;
+  node.style.left = 0;
+  node.style.right = 0;
+  node.style.fontSize = `30px`;
+  node.textContent = errorMessage;
 
-    disableElementsTumbler(arr, mode) {
-      for (let i = 0; i < arr.length; i++) {
-        arr[i].disabled = mode;
+  document.body.insertAdjacentElement(`afterbegin`, node);
+};
 
-        if (mode === true) {
-          arr[i].style.cursor = `default`;
-        }
-      }
-    },
+let removePins = () => {
+  const PINS = window.const.MAP.querySelectorAll(`.map__pin:not(.map__pin--main)`);
 
-    showElement(element, tumbler) {
-      element.classList.remove(tumbler);
-    },
+  PINS.forEach((element) => {
+    element.remove();
+  });
+};
 
-    hideElement(element, tumbler) {
-      element.classList.add(tumbler);
-    },
+let noop = () => {};
 
-    createErrorMessage(errorMessage) {
-      const node = document.createElement(`div`);
-
-      node.style = `z-index: 100; margin: 0 auto; text-align: center; background-color: red;`;
-      node.style.position = `absolute`;
-      node.style.left = 0;
-      node.style.right = 0;
-      node.style.fontSize = `30px`;
-      node.textContent = errorMessage;
-
-      document.body.insertAdjacentElement(`afterbegin`, node);
-    },
-
-    removePins() {
-      const PINS = window.const.MAP.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-
-      PINS.forEach((element) => {
-        element.remove();
-      });
-    },
-
-    noop() {},
-  };
-})();
+window.util = {
+  disableElements,
+  showElement,
+  hideElement,
+  createErrorMessage,
+  removePins,
+  noop
+};
