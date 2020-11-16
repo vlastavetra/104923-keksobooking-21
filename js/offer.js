@@ -2,37 +2,21 @@
 
 (() => {
   const MAX_OFFERS_NUMBER = 5;
-  const CLASS_HIDDEN = `hidden`;
 
+  const map = document.querySelector(`.map`);
+  const mapCard = map.querySelector(`.map__card `);
   const mapPins = document.querySelector(`.map__pins`);
   const fragment = document.createDocumentFragment();
   const cardPopup = document.querySelector(`#card`).content.querySelector(`.popup`);
   const mapFilters = document.querySelector(`.map__filters`);
 
-  const close = (element, button) => {
-    button.addEventListener(`click`, () => {
-      element.classList.add(CLASS_HIDDEN);
-      window.pin.removeClassPinActive();
-    });
-
-    button.addEventListener(`keydown`, (evt) => {
-      if (evt.key === `Enter`) {
-        window.util.hideElement(element, CLASS_HIDDEN);
-        window.pin.removeClassPinActive();
-      }
-    });
-
-    mapFilters.addEventListener(`change`, () => {
-      window.util.hideElement(element, CLASS_HIDDEN);
-      window.pin.removeClassPinActive();
-    });
-
-    document.addEventListener(`keydown`, (evt) => {
-      if (evt.key === `Escape`) {
-        window.util.hideElement(element, CLASS_HIDDEN);
-        window.pin.removeClassPinActive();
-      }
-    });
+  const popupCloseHandler = (evt) => {
+    if (evt.key !== `Escape` && evt.button !== 0) {
+      return;
+    }
+    mapCard.remove();
+    window.pin.removeClassPinActive();
+    document.removeEventListener(`keydown`, popupCloseHandler);
   };
 
   const render = (offer) => {
@@ -57,7 +41,7 @@
       house: `Дом`,
       palace: `Дворец`,
     };
-    const OFFER_CLOSE = offerElement.querySelector(`.popup__close`);
+
     Offer.ADDRESS.textContent = offer.offer.address;
     Offer.PRICE.textContent = `${offer.offer.price.toLocaleString()} ₽/ночь`;
     Offer.TITLE.textContent = offer.offer.title;
@@ -97,7 +81,12 @@
       Offer.FEATURES.remove();
     }
 
-    close(offerElement, OFFER_CLOSE);
+    const offerClose = offerElement.querySelector(`.popup__close`);
+
+    document.addEventListener(`keydown`, popupCloseHandler);
+    offerClose.addEventListener(`click`, popupCloseHandler);
+    offerClose.addEventListener(`keydown`, popupCloseHandler);
+    mapFilters.addEventListener(`click`, popupCloseHandler);
 
     return offerElement;
   };
@@ -114,7 +103,6 @@
 
 
   window.offer = {
-    close,
     render,
     renderMany
   };

@@ -5,28 +5,29 @@
   const adForm = document.querySelector(`.ad-form`);
   const adFormSuccessMessage = document.querySelector(`#success`).content.querySelector(`.success`);
   const adFormErrorMessage = document.querySelector(`#error`).content.querySelector(`.error`);
+  let removableMessage;
+
+  const messageCloseHandler = (evt) => {
+    if (evt.key !== `Escape` && evt.button !== 0) {
+      return;
+    }
+    removableMessage.remove();
+    document.removeEventListener(`keydown`, messageCloseHandler);
+  };
 
   const show = (message) => {
     const adFormSuccessMessageElement = message.cloneNode(true);
-
+    removableMessage = adFormSuccessMessageElement;
     main.appendChild(adFormSuccessMessageElement);
 
-    document.addEventListener(`keydown`, (evt) => {
-      if (evt.key === `Escape`) {
-        window.util.hideElement(adFormSuccessMessageElement, `hidden`);
-      }
-    });
+    document.addEventListener(`keydown`, messageCloseHandler);
 
-    document.addEventListener(`click`, () => {
-      window.util.hideElement(adFormSuccessMessageElement, `hidden`);
-    });
+    document.addEventListener(`click`, messageCloseHandler);
 
     if (message === adFormErrorMessage) {
       const adFormErrorButton = document.querySelector(`.error__button`);
 
-      adFormErrorButton.addEventListener(`click`, () => {
-        window.util.hideElement(adFormSuccessMessageElement, `hidden`);
-      });
+      adFormErrorButton.addEventListener(`click`, messageCloseHandler);
     }
   };
 
