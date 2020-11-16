@@ -3,18 +3,17 @@
 (() => {
   const MAX_OFFERS_NUMBER = 5;
 
-  const map = document.querySelector(`.map`);
-  const mapCard = map.querySelector(`.map__card `);
   const mapPins = document.querySelector(`.map__pins`);
   const fragment = document.createDocumentFragment();
   const cardPopup = document.querySelector(`#card`).content.querySelector(`.popup`);
   const mapFilters = document.querySelector(`.map__filters`);
+  let removableOffer;
 
   const popupCloseHandler = (evt) => {
-    if (evt.key !== `Escape` && evt.button !== 0) {
+    if (evt.key !== `Escape` && evt.button !== 0 && evt.change) {
       return;
     }
-    mapCard.remove();
+    removableOffer.remove();
     window.pin.removeClassPinActive();
     document.removeEventListener(`keydown`, popupCloseHandler);
   };
@@ -83,10 +82,11 @@
 
     const offerClose = offerElement.querySelector(`.popup__close`);
 
+    removableOffer = offerElement;
     document.addEventListener(`keydown`, popupCloseHandler);
     offerClose.addEventListener(`click`, popupCloseHandler);
     offerClose.addEventListener(`keydown`, popupCloseHandler);
-    mapFilters.addEventListener(`click`, popupCloseHandler);
+    mapFilters.addEventListener(`change`, popupCloseHandler);
 
     return offerElement;
   };
@@ -100,7 +100,6 @@
 
     mapPins.appendChild(fragment);
   };
-
 
   window.offer = {
     render,
