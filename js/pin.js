@@ -1,32 +1,47 @@
 'use strict';
 
-const PIN_TEMPLATE = document.querySelector(`#pin`)
-.content
-.querySelector(`button`);
+(() => {
+  const pinTemplate = document.querySelector(`#pin`)
+  .content
+  .querySelector(`button`);
+  const map = document.querySelector(`.map`);
+  const mapPins = map.querySelector(`.map__pins`);
+  const mapFilter = map.querySelector(`.map__filters-container`);
 
-let renderPin = (offer) => {
-  const PIN_ELEMENT = PIN_TEMPLATE.cloneNode(true);
-  const PIN_IMG = PIN_ELEMENT.querySelector(`img`);
+  const removeClassPinActive = () => {
+    const pins = mapPins.querySelectorAll(`.map__pin`);
 
-  PIN_IMG.src = offer.author.avatar;
-  PIN_IMG.alt = offer.offer.title;
+    pins.forEach((pin)=>{
+      pin.classList.remove(`map__pin--active`);
+    });
+  };
 
-  PIN_ELEMENT.style.left = `${offer.location.x - (PIN_ELEMENT.offsetWidth / 2)}px`;
-  PIN_ELEMENT.style.top = `${offer.location.y - PIN_ELEMENT.offsetHeight}px`;
+  const render = (offer) => {
+    const pinElement = pinTemplate.cloneNode(true);
+    const pinImg = pinElement.querySelector(`img`);
 
-  PIN_ELEMENT.addEventListener(`click`, () => {
-    const MAP_CARD = window.const.MAP.querySelector(`.map__card`);
+    pinImg.src = offer.author.avatar;
+    pinImg.alt = offer.offer.title;
 
-    if (MAP_CARD) {
-      MAP_CARD.remove();
-    }
+    pinElement.style.left = `${offer.location.x - (pinElement.offsetWidth / 2)}px`;
+    pinElement.style.top = `${offer.location.y - pinElement.offsetHeight}px`;
 
-    window.const.MAP.insertBefore(window.offer.renderOffer(offer), window.const.MAP_FILTER);
-  });
+    pinElement.addEventListener(`click`, (evt) => {
+      const mapCard = map.querySelector(`.map__card`);
 
-  return PIN_ELEMENT;
-};
+      if (mapCard) {
+        mapCard.remove();
+      }
+      map.insertBefore(window.offer.render(offer), mapFilter);
+      removeClassPinActive();
+      evt.currentTarget.classList.add(`map__pin--active`);
+    });
 
-window.pin = {
-  renderPin
-};
+    return pinElement;
+  };
+
+  window.pin = {
+    render,
+    removeClassPinActive
+  };
+})();
