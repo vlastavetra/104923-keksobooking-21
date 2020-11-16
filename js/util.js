@@ -11,14 +11,6 @@
     });
   };
 
-  const showElement = (element, tumbler) => {
-    element.classList.remove(tumbler);
-  };
-
-  const hideElement = (element, tumbler) => {
-    element.classList.add(tumbler);
-  };
-
   const createErrorMessage = (errorMessage) => {
     const node = document.createElement(`div`);
 
@@ -44,8 +36,6 @@
 
   window.util = {
     disableElements,
-    showElement,
-    hideElement,
     createErrorMessage,
     removePins,
     noop

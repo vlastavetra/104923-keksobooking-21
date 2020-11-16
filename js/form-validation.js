@@ -30,7 +30,7 @@
 
   adForm.type.addEventListener(`input`, (evt) => {
     if (evt.target === adForm.type) {
-      adForm.price.value = AdFormMinPrice[adForm.type.value];
+      adForm.price.placeholder = AdFormMinPrice[adForm.type.value];
     }
   });
 

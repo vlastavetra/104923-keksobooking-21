@@ -1,6 +1,10 @@
 'use strict';
 
 (() => {
+  const PinSize = {
+    HALF_WIDTH: 25,
+    HEIGHT: 70
+  };
   const pinTemplate = document.querySelector(`#pin`)
   .content
   .querySelector(`button`);
@@ -23,8 +27,8 @@
     pinImg.src = offer.author.avatar;
     pinImg.alt = offer.offer.title;
 
-    pinElement.style.left = `${offer.location.x - (pinElement.offsetWidth / 2)}px`;
-    pinElement.style.top = `${offer.location.y - pinElement.offsetHeight}px`;
+    pinElement.style.left = `${offer.location.x - PinSize.HALF_WIDTH}px`;
+    pinElement.style.top = `${offer.location.y - PinSize.HEIGHT}px`;
 
     pinElement.addEventListener(`click`, (evt) => {
       const mapCard = map.querySelector(`.map__card`);

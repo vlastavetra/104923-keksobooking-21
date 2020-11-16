@@ -1,6 +1,7 @@
 'use strict';
 
 (() => {
+  const MAX_OFFERS_NUMBER = 5;
   const Budget = {
     LOW: `low`,
     MIDDLE: `middle`,
@@ -10,36 +11,69 @@
     MIN: 10000,
     MAX: 50000
   };
+
   const mapFilters = document.querySelector(`.map__filters`);
+  const housingTypeFilter = mapFilters.querySelector(`#housing-type`);
+  const housingPriceFilter = mapFilters.querySelector(`#housing-price`);
+  const housingRoomsFilter = mapFilters.querySelector(`#housing-rooms`);
+  const housingGuestsFilter = mapFilters.querySelector(`#housing-guests`);
+  const housingFeatures = mapFilters.querySelector(`#housing-features`).querySelectorAll(`input`);
 
-  let filter = (offers) => {
+  const filterHousingType = (offer) => {
+    return (offer.offer.type === housingTypeFilter.value || housingTypeFilter.value === `any`) ? true : false;
+  };
+
+  const filterHousingPrice = (offer) => {
+    switch (housingPriceFilter.value) {
+      case Budget.LOW:
+        return offer.offer.price < Cost.MIN;
+      case Budget.MIDDLE:
+        return offer.offer.price >= Cost.MIN && offer.offer.price <= Cost.MAX;
+      case Budget.HIGH:
+        return offer.offer.price > Cost.MIN;
+      default:
+        return offer;
+    }
+  };
+
+  const filterHousingRooms = (offer) => {
+    return (offer.offer.rooms === Number(housingRoomsFilter.value) || housingRoomsFilter.value === `any`) ? true : false;
+  };
+
+  const filterHousingGuests = (offer) => {
+    return (offer.offer.guests === Number(housingGuestsFilter.value) || housingGuestsFilter.value === `any`) ? true : false;
+
+  };
+
+  const filterHousingFeatures = (offer) => {
+    return Array.from(housingFeatures).filter((checkbox) => {
+      return checkbox.checked;
+    }).every((feature) => {
+      return offer.offer.features.indexOf(feature.value) !== -1;
+    });
+  };
+
+  const filter = (offers) => {
     mapFilters.addEventListener(`change`, window.debounce(() => {
-      const filters = Object.fromEntries(new FormData(mapFilters).entries());
+      let filteredOffers = [];
 
-      const filteredOffers = offers.filter((offer) => {
-        return offer.offer.type === filters[`housing-type`] || filters[`housing-type`] === `any`;
-      }).filter((offer) => {
-        return offer.offer.rooms === parseInt(filters[`housing-rooms`], 10) || filters[`housing-rooms`] === `any`;
-      }).filter((offer) => {
-        return offer.offer.guests === parseInt(filters[`housing-guests`], 10) || filters[`housing-guests`] === `any`;
-      }).filter((offer) => {
-        switch (filters[`housing-price`]) {
-          case Budget.LOW:
-            return offer.offer.price < Cost.MIN;
-          case Budget.MIDDLE:
-            return offer.offer.price >= Cost.MIN && offer.offer.price <= Cost.MAX;
-          case Budget.HIGH:
-            return offer.offer.price > Cost.MIN;
-          default:
-            return offer;
-        }
-      }).filter((offer) => {
-        return offer.offer.features.includes(filters[`features`]) || filters[`features`] === undefined;
-      });
+      while (filteredOffers.length < MAX_OFFERS_NUMBER) {
+        offers.forEach((offer) => {
+          if (filterHousingType(offer) &&
+          filterHousingPrice(offer) &&
+          filterHousingRooms(offer) &&
+          filterHousingGuests(offer) &&
+          filterHousingFeatures(offer)
+          ) {
+            filteredOffers.push(offer);
+          }
+        });
+      }
 
       window.util.removePins();
-
       window.offer.renderMany(filteredOffers);
+
+      document.removeEventListener(`change`, filter);
     }));
   };
 
