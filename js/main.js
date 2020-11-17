@@ -49,7 +49,7 @@
     mapFilters.reset();
     map.classList.add(MAP_FADED);
     adForm.classList.add(AD_FORM_DISABLED);
-    window.formvalidation.resetPlaceholder();
+    window.formvalidation.reset();
     window.util.removePins();
     window.util.disableElements(mapFiltersChilds, true);
     window.util.disableElements(mapFiltersFeatures, true);

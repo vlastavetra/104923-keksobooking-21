@@ -15,6 +15,10 @@
   };
   const adForm = document.querySelector(`.ad-form`);
 
+  const reset = () => {
+    adForm.price.placeholder = AdFormMinPrice.flat;
+  };
+
   adForm.price.addEventListener(`input`, () => {
     adForm.price.min = AdFormMinPrice[adForm.type.value];
     adForm.price.placeholder = AdFormMinPrice[adForm.type.value];
@@ -33,10 +37,6 @@
       adForm.price.placeholder = AdFormMinPrice[adForm.type.value];
     }
   });
-
-  const resetPlaceholder = () => {
-    adForm.price.placeholder = AdFormMinPrice.flat;
-  };
 
   adForm.timein.addEventListener(`input`, (evt) => {
     if (evt.target === adForm.timein) {
@@ -64,6 +64,6 @@
     adForm.capacity.reportValidity();
   });
   window.formvalidation = {
-    resetPlaceholder
+    reset
   };
 })();

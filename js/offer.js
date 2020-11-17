@@ -14,7 +14,7 @@
       return;
     }
     removableOffer.remove();
-    window.pin.removeClass();
+    window.pin.removeClassActive();
     document.removeEventListener(`keydown`, popupCloseHandler);
   };
 

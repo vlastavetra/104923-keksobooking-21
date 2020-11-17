@@ -12,7 +12,7 @@
   const mapPins = map.querySelector(`.map__pins`);
   const mapFilter = map.querySelector(`.map__filters-container`);
 
-  const removeClass = () => {
+  const removeClassActive = () => {
     const pins = mapPins.querySelectorAll(`.map__pin`);
 
     pins.forEach((pin)=>{
@@ -37,7 +37,7 @@
         mapCard.remove();
       }
       map.insertBefore(window.offer.render(offer), mapFilter);
-      removeClass();
+      removeClassActive();
       evt.currentTarget.classList.add(`map__pin--active`);
     });
 
@@ -46,6 +46,6 @@
 
   window.pin = {
     render,
-    removeClass
+    removeClassActive
   };
 })();
