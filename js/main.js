@@ -2,6 +2,7 @@
 
 (() => {
   const MAP_FADED = `map--faded`;
+  const AD_FORM_DISABLED = `ad-form--disabled`;
   const map = document.querySelector(`.map`);
   const mapPinMain = document.querySelector(`.map__pin--main`);
   const mapFilters = document.querySelector(`.map__filters`);
@@ -10,7 +11,6 @@
   const mapFiltersFeatures = Array.from(mapFeatures.children);
   const adForm = document.querySelector(`.ad-form`);
   const adFormFildsets = Array.from(adForm.querySelectorAll(`.ad-form > fieldset`));
-  const adFormDisabled = `ad-form--disabled`;
   const resetBtn = adForm.querySelector(`.ad-form__reset`);
   const avatarPreview = adForm.querySelector(`.ad-form-header__preview img`);
   const housePhotoPreview = adForm.querySelector(`.ad-form__photo img`);
@@ -33,8 +33,9 @@
     if (map.classList.contains(MAP_FADED) && evt.button === 0 || evt.key === `Enter`) {
       window.backend.loadData(successHandler, errorHandler);
       map.classList.remove(MAP_FADED);
-      adForm.classList.remove(adFormDisabled);
+      adForm.classList.remove(AD_FORM_DISABLED);
       window.util.disableElements(adFormFildsets, false);
+      window.movepin.setAddress();
     }
 
     if (map.querySelectorAll(`.map__pin`).length >= 2) {
@@ -47,7 +48,8 @@
     adForm.reset();
     mapFilters.reset();
     map.classList.add(MAP_FADED);
-    adForm.classList.add(adFormDisabled);
+    adForm.classList.add(AD_FORM_DISABLED);
+    window.formvalidation.resetPlaceholder();
     window.util.removePins();
     window.util.disableElements(mapFiltersChilds, true);
     window.util.disableElements(mapFiltersFeatures, true);

@@ -7,8 +7,8 @@
   const address = adForm.querySelector(`[name='address']`);
 
   const PinSize = {
-    HALF_WIDTH: 31,
-    HEIGHT: 72,
+    RADIUS: 31,
+    HEIGHT: 87,
     ACTIVE_HEIGHT: 195
   };
   const YLimit = {
@@ -16,7 +16,7 @@
     MAX: 630
   };
   const XLimit = {
-    MIN: 0 - PinSize.HALF_WIDTH,
+    MIN: 0 - PinSize.RADIUS,
     MAX: map.clientWidth
   };
 
@@ -25,10 +25,15 @@
     Y: 375
   };
 
-  let pinAddressX = parseInt(mapPinMain.style.left, 10) + PinSize.HALF_WIDTH;
-  let pinAddressY = parseInt(mapPinMain.style.left, 10) - (PinSize.ACTIVE_HEIGHT - PinSize.HEIGHT);
+  const DefaultPinCoord = {
+    X: StartPinCoord.X + PinSize.RADIUS,
+    Y: StartPinCoord.Y + PinSize.HEIGHT
+  };
 
-  const setAddress = (x, y) => {
+  let pinAddressX = parseInt(mapPinMain.style.left, 10) + PinSize.RADIUS;
+  let pinAddressY = parseInt(mapPinMain.style.left, 10) - (PinSize.ACTIVE_HEIGHT - PinSize.RADIUS);
+
+  const setAddress = (x = DefaultPinCoord.X, y = DefaultPinCoord.Y) => {
     address.setAttribute(`value`, `${x}, ${y}`);
   };
 
@@ -38,7 +43,7 @@
     mapPinMain.style.left = `${StartPinCoord.X}px`;
     mapPinMain.style.top = `${(StartPinCoord.X - PinSize.ACTIVE_HEIGHT)}px`;
 
-    setAddress(StartPinCoord.X + PinSize.HALF_WIDTH, StartPinCoord.Y + PinSize.HEIGHT);
+    setAddress(DefaultPinCoord.X, StartPinCoord.Y + PinSize.RADIUS);
   };
 
   mapPinMain.addEventListener(`mousedown`, (evt) => {
@@ -63,7 +68,7 @@
         y: moveEvt.clientY
       };
 
-      if (coordX >= XLimit.MIN && coordX + PinSize.HALF_WIDTH <= XLimit.MAX) {
+      if (coordX >= XLimit.MIN && coordX + PinSize.RADIUS <= XLimit.MAX) {
         mapPinMain.style.left = `${coordX}px`;
       }
 
@@ -71,7 +76,7 @@
         mapPinMain.style.top = `${coordY}px`;
       }
 
-      pinAddressX = parseInt(mapPinMain.style.left, 10) + PinSize.HALF_WIDTH;
+      pinAddressX = parseInt(mapPinMain.style.left, 10) + PinSize.RADIUS;
       pinAddressY = parseInt(mapPinMain.style.top, 10) + PinSize.HEIGHT;
 
       setAddress(pinAddressX, pinAddressY);
@@ -89,6 +94,7 @@
   });
 
   window.movepin = {
-    resetMapPinMain
+    resetMapPinMain,
+    setAddress
   };
 })();

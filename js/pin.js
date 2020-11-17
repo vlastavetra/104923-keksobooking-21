@@ -3,7 +3,7 @@
 (() => {
   const PinSize = {
     HALF_WIDTH: 25,
-    HEIGHT: 70
+    HEIGHT: 87
   };
   const pinTemplate = document.querySelector(`#pin`)
   .content
@@ -12,7 +12,7 @@
   const mapPins = map.querySelector(`.map__pins`);
   const mapFilter = map.querySelector(`.map__filters-container`);
 
-  const removeClassPinActive = () => {
+  const removeClass = () => {
     const pins = mapPins.querySelectorAll(`.map__pin`);
 
     pins.forEach((pin)=>{
@@ -37,7 +37,7 @@
         mapCard.remove();
       }
       map.insertBefore(window.offer.render(offer), mapFilter);
-      removeClassPinActive();
+      removeClass();
       evt.currentTarget.classList.add(`map__pin--active`);
     });
 
@@ -46,6 +46,6 @@
 
   window.pin = {
     render,
-    removeClassPinActive
+    removeClass
   };
 })();

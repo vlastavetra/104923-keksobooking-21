@@ -34,6 +34,10 @@
     }
   });
 
+  const resetPlaceholder = () => {
+    adForm.price.placeholder = AdFormMinPrice.flat;
+  };
+
   adForm.timein.addEventListener(`input`, (evt) => {
     if (evt.target === adForm.timein) {
       adForm.timeout.value = adForm.timein.value;
@@ -59,4 +63,7 @@
 
     adForm.capacity.reportValidity();
   });
+  window.formvalidation = {
+    resetPlaceholder
+  };
 })();

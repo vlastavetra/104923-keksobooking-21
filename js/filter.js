@@ -57,17 +57,20 @@
     mapFilters.addEventListener(`change`, window.debounce(() => {
       let filteredOffers = [];
 
-      while (filteredOffers.length < MAX_OFFERS_NUMBER) {
-        offers.forEach((offer) => {
-          if (filterHousingType(offer) &&
-          filterHousingPrice(offer) &&
-          filterHousingRooms(offer) &&
-          filterHousingGuests(offer) &&
-          filterHousingFeatures(offer)
-          ) {
-            filteredOffers.push(offer);
-          }
-        });
+      for (let i = 0; i < offers.length; i++) {
+        const offer = offers[i];
+
+        if (filterHousingType(offer) &&
+            filterHousingPrice(offer) &&
+            filterHousingRooms(offer) &&
+            filterHousingGuests(offer) &&
+            filterHousingFeatures(offer)
+        ) {
+          filteredOffers.push(offer);
+        }
+        if (filteredOffers.length === MAX_OFFERS_NUMBER) {
+          break;
+        }
       }
 
       window.util.removePins();
