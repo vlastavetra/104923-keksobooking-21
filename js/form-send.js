@@ -1,52 +1,50 @@
 'use strict';
 
-(() => {
-  const main = document.querySelector(`main`);
-  const adForm = document.querySelector(`.ad-form`);
-  const adFormSuccessMessage = document.querySelector(`#success`).content.querySelector(`.success`);
-  const adFormErrorMessage = document.querySelector(`#error`).content.querySelector(`.error`);
-  let removableMessage;
+const main = document.querySelector(`main`);
+const adForm = document.querySelector(`.ad-form`);
+const adFormSuccessMessage = document.querySelector(`#success`).content.querySelector(`.success`);
+const adFormErrorMessage = document.querySelector(`#error`).content.querySelector(`.error`);
+let removableMessage;
 
-  const messageCloseHandler = (evt) => {
-    if (evt.key !== `Escape` && evt.button !== 0) {
-      return;
-    }
-    removableMessage.remove();
-    document.removeEventListener(`keydown`, messageCloseHandler);
-  };
+const messageCloseHandler = (evt) => {
+  if (evt.key !== `Escape` && evt.button !== 0) {
+    return;
+  }
+  removableMessage.remove();
+  document.removeEventListener(`keydown`, messageCloseHandler);
+};
 
-  const show = (message) => {
-    const adFormSuccessMessageElement = message.cloneNode(true);
-    removableMessage = adFormSuccessMessageElement;
-    main.appendChild(adFormSuccessMessageElement);
+const show = (message) => {
+  const adFormSuccessMessageElement = message.cloneNode(true);
+  removableMessage = adFormSuccessMessageElement;
+  main.appendChild(adFormSuccessMessageElement);
 
-    document.addEventListener(`keydown`, messageCloseHandler);
+  document.addEventListener(`keydown`, messageCloseHandler);
 
-    document.addEventListener(`click`, messageCloseHandler);
+  document.addEventListener(`click`, messageCloseHandler);
 
-    if (message === adFormErrorMessage) {
-      const adFormErrorButton = document.querySelector(`.error__button`);
+  if (message === adFormErrorMessage) {
+    const adFormErrorButton = document.querySelector(`.error__button`);
 
-      adFormErrorButton.addEventListener(`click`, messageCloseHandler);
-    }
-  };
+    adFormErrorButton.addEventListener(`click`, messageCloseHandler);
+  }
+};
 
-  const errorFormHandler = () => {
-    show(adFormErrorMessage);
-  };
+const errorFormHandler = () => {
+  show(adFormErrorMessage);
+};
 
-  const successFormHandler = () => {
-    show(adFormSuccessMessage);
+const successFormHandler = () => {
+  show(adFormSuccessMessage);
 
-    adForm.reset();
-    window.main.deactivatePage();
-  };
+  adForm.reset();
+  window.main.deactivatePage();
+};
 
-  adForm.addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+adForm.addEventListener(`submit`, (evt) => {
+  evt.preventDefault();
 
-    const data = new FormData(adForm);
+  const data = new FormData(adForm);
 
-    window.backend.saveData(data, successFormHandler, errorFormHandler);
-  });
-})();
+  window.backend.saveData(data, successFormHandler, errorFormHandler);
+});
